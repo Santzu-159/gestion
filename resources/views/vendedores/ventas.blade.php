@@ -18,8 +18,7 @@
             @endforeach
         </ul>
             Ventas totales: {{$total}}
+            <a href="{{route('vendedores.index')}}" class="float-right btn btn-success">Volver</a>
         </div>
-        <a href="{{route('vendedores.show', $vendedore)}}" class="float-left btn btn-secondary">Volver a los datos del Vendedor</a>
-        <a href="{{route('vendedores.index')}}" class="float-left btn btn-success">Ir a Vendedores</a>
     </div>
 @endsection

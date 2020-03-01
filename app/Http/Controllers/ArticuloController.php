@@ -96,6 +96,7 @@ class ArticuloController extends Controller
         $articulo->nombre=$request->nombre;
         $articulo->categoria_id=$request->categoria;
         $articulo->precio=$request->precio;
+        if($request->stock!=null)
         $articulo->stock=$request->stock;
 
         if($request->has('imagen')){

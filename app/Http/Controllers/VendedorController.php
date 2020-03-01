@@ -33,13 +33,13 @@ class VendedorController extends Controller
         return view("vendedores.index", compact("vendedores","ventas","request"));
     }
 
-    public function ventas(Vendedor $vendedor)
+    public function ventas(Vendedor $vendedore)
     {
         $vendidos = DB::select("select a.nombre, a.id, v.unidades from articulos as a, ventas as v where articulo_id=a.id and vendedor_id=".$vendedore->id." order by v.id;");
         $total = DB::table('ventas')
-        ->where('vendedor_id', $vendedor->id)
+        ->where('vendedor_id', $vendedore->id)
         ->sum('unidades');
-        return view('vendedores.ventas',compact('vendedor','vendidos','total'));
+        return view('vendedores.ventas',compact('vendedore','vendidos','total'));
     }
 
     /**
@@ -93,9 +93,9 @@ class VendedorController extends Controller
      * @param  \App\Vendedor  $vendedor
      * @return \Illuminate\Http\Response
      */
-    public function show(Vendedor $vendedor)
+    public function show(Vendedor $vendedore)
     {
-        return view('vendedores.show',compact('vendedor'));
+        return view('vendedores.show',compact('vendedore'));
     }
 
     /**
@@ -104,9 +104,9 @@ class VendedorController extends Controller
      * @param  \App\Vendedor  $vendedor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Vendedor $vendedor)
+    public function edit(Vendedor $vendedore)
     {
-        return view('vendedores.edit',compact('vendedor'));
+        return view('vendedores.edit',compact('vendedore'));
     }
 
     /**
@@ -116,12 +116,12 @@ class VendedorController extends Controller
      * @param  \App\Vendedor  $vendedor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Vendedor $vendedor)
+    public function update(Request $request, Vendedor $vendedore)
     {
         $request->validate([
             'nombre'=>['required'],
             'apellidos'=>['required'],
-            'email'=>['required', 'unique:vendedores,email,'.$vendedor->id]
+            'email'=>['required', 'unique:vendedors,email,'.$vendedore->id]
         ]);
             
         if($request->has('imagen')){
@@ -131,17 +131,17 @@ class VendedorController extends Controller
             $file=$request->file('imagen');
             $nombre='vendedores/'.time().'_'.$file->getClientOriginalName();
             Storage::disk('public')->put($nombre, \File::get($file));
-            if(basename($vendedor->imagen)!='default.png'){
-                unlink(public_path().'/'.$vendedor->imagen);
+            if(basename($vendedore->imagen)!='default.png'){
+                unlink(public_path().'/'.$vendedore->imagen);
             }
-            $vendedor->update($request->all());
-            $vendedor->update(['imagen'=>"img/$nombre"]);
+            $vendedore->update($request->all());
+            $vendedore->update(['imagen'=>"img/$nombre"]);
         }else{
-            $vendedor->update($request->all());
+            $vendedore->update($request->all());
         }
-        $vendedor->update();
+        $vendedore->update();
 
-        return redirect()->route('vendedores.index')->with('mensaje','La información del vendedor '.$vendedor->nombre.' se ha actualizado');
+        return redirect()->route('vendedores.index')->with('mensaje','La información del vendedor '.$vendedore->nombre.' se ha actualizado');
     }
 
     /**
@@ -150,13 +150,13 @@ class VendedorController extends Controller
      * @param  \App\Vendedor  $vendedor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vendedor $vendedor)
+    public function destroy(Vendedor $vendedore)
     {
-        $nombre=$vendedor->nombre;
-        if(basename($vendedor->imagen)!='default.png'){
-            unlink(public_path().'/'.$vendedor->imagen);
+        $nombre=$vendedore->nombre;
+        if(basename($vendedore->imagen)!='default.png'){
+            unlink(public_path().'/'.$vendedore->imagen);
         }
-        $vendedor->delete();
+        $vendedore->delete();
         return redirect()->route('vendedores.index')->with('mensaje','El vendedor '.$nombre.' se ha eliminado de la BD');
     }
 }

@@ -14,7 +14,7 @@
 Route::get('/', function () {
     return view('index');
 });
-Route::get('vendedores/{vendedor}/ventas', 'VendedorController@ventas')->name('vendedores.ventas');
+Route::get('vendedores/{vendedore}/ventas', 'VendedorController@ventas')->name('vendedores.ventas');
 Route::get('articulos/{articulo}/vender', 'ArticuloController@vender')->name('articulos.vender');
 
 Route::resource("articulos", "ArticuloController");

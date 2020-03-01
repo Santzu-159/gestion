@@ -50,7 +50,7 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('img'),
+            'root' => public_path('img'),
             'url' => env('APP_URL').'/img',
             'visibility' => 'public',
         ],
